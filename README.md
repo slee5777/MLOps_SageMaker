@@ -2,6 +2,19 @@
 Coursera - MLOps Platforms: Amazon SageMaker and Azure ML
 
 # Module 1
+### Started with AWS ClouShell
+Click the command prompt icon to open AWS CloudShell, under 'Actions' dropdown:
+
+> select 'Delete AWS CloudShell home directory' to remove every you have done previously.
+
+> select 'new tab', to add an extra AWS CloudShell in a new tab.
+
+> select 'split into rows', to add an extra AWS CloudShell vertically.
+
+> select 'split into columns' to add an extra AWS CloudShell horizontally.
+
+> allow 'upload file' and 'download file'.
+
 In AWS CloudShell (ie terminal), type:
 >```conda env list``` to list out packages within an environment
 
@@ -26,17 +39,27 @@ In AWS CloudShell (ie terminal), type:
 >```zip -r <folder file to be zipped> <name of the zip file>``` to zip a directory
 
 
+### Prototyping AI APIs in CouldShell
+>```sudo yum install lynx```, Lynx is a library to browse internet in a terminal
 
-### Click the command prompt icon to open AWS CloudShell, under 'Actions' dropdown:
+>```lynx -dump <url> | less``` to browse internet in a terminal 
 
-> select 'Delete AWS CloudShell home directory' to remove every you have done previously.
+Example 1: To extract text from internet for sentiment analysis:
 
-> select 'new tab', to add an extra AWS CloudShell in a new tab.
+step 1: >```TEXT=`lynx -dump <url> | head -c 5000` ``` (limited to 5000 bytes)
 
-> select 'split into rows', to add an extra AWS CloudShell vertically.
+step 2: >```echo $TEXT```
 
-> select 'split into columns' to add an extra AWS CloudShell horizontally.
+step 3: >```aws comprehend detect-sentiment --language-code "en" --text "$TEXT"```
 
-> allow 'upload file' and 'download file'.
+Example 2: To detect entities from an internet page:
 
-> 
+>```aws comprehend detect-entities --language-code "en" --text "$TEXT" --output text | cut -f 5 | tr -cd "[:alpha:][:space:]" | tr ' [:upper:]' '\n[:lower:]' | tr -s '\n' | sort | uniq -c | sort -nr -k 1 | head```
+
+- go to https://github.com/noahgift/DotNetAWSComprehend for more examples
+
+
+
+
+
+
