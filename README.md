@@ -58,7 +58,87 @@ Example 2: To detect entities from an internet page:
 
 - go to https://github.com/noahgift/DotNetAWSComprehend for more examples
 
+  
+### Cloud9 with AWS CodeWhisperer
+In Cloud9's terminal, type:
+>```aws s3 ls help```
+  
+>```aws s3 ls | wc -l``` to count number of files within a bucket.
 
+By clicking AWS icon on the left bar, under Explorer to integrate with other AWS services.  Under Developer Tools, CodeWhisperer is there.  Type the following to initate a VM:
+
+Step 1: >```python3 -m venv ~/.venv && source ~/.venv/bin/activate```
+  
+Step 2: >```pip install boto3```
+  
+Step 3: >```pip install black```
+  
+Step 4: Go to the file tree on the left bar, type >```touch s3.py``` to create an empty .py file.  Then start typing the function description and import libraries.  Wait a bit and tab to complete code suggestions.
+
+Step 5: In terminal, type >```black s3.py``` to enable colouring for code in s3.py.  This can be run multiple times during the coding process.
+  
+Step 6: Then, run the code by typing ```python s3.py``` in terminal to test the code.  Modify the code if necessary.
+  
+  
+### Amazon Simple Storage Service (Amazon S3)
+
+Bucket: ```https://s3-<aws-region>.amazonaws.com/<bucket-name>```  
+  
+Object: ```https://s3-<aws-region>.amazonaws.com/<bucket-name>/<object-key>```
+  
+Bucket names must be globally unique (3-63 characters long), accepting lowercase, numbers and hyphens (-) but not uppercase and underscores (_)
+ 
+Useful for hosting a static website (must be enabled)
+Structure: ```http://<bucket-name>.s3-website-<aws-region>.amazonaws.com```
+Object: ```http://<bucket-name>.s3-<aws-region>.amazonaws.com/<object-key>```  
+
+Use the PUT object to upload objects to S3.  For example, put core.css to the bucket:
+```python
+  import boto3
+  S3API = boto3.client("s3", region_name="us-east-1"
+  bucket_name = "samplebucket"
+  filename = "/resources/website/core.css"
+  S3API.upload_file(filename, bucket_name, "core.css", 
+  ExtraArgs={'ContentType': "text/css", "CacheControl": "max-age=0"})
+  ```
+
+Use the GET object to retrieve objects from S3. 
+  
+If versioning disabled, the deleted object is permanently deleted from the bucket.  If versioning enabled, delete with only the object key.
+  
+S3 Select is a powerful tools to query data in place.
+  
+Data Encryption: Securing data in-transit vs securing data at rest
+  
+Access Control Lists (ACLs): identity-based policies vs resource-based policies
+  
+
+### AWS Storage Mediums
+- Database: key-value database, graph database and Amazon Aurora (access via SQL)
+  
+- Data Lake: include Metadata, storage (built on top of S3) and compute
+  
+- AWS EFS (Elastic File System): connect with NFS (network file system is a distributed file system protocol that allows users to access files over a network like they access local storage) and Windows 
+  
+- AWS EBS (Elastic Block Storage is block-level storage solution used with the EC2 cloud service to store persistent data): Custom I/O and only available for a single mount point
+  
+
+ ### Working with Amazon S3
+  
+Within S3, select a file from a bucket.  Undert the 'Object actions' drop-down, select 'Query with S3 Select'.  Scroll down to 'SQL query' then run SQL query to inspect the object, with 'Raw' and 'Formatted' view. 
+  
+Alternatively, you can update a file via Cloud9 by typing:
+>```aws s3 cp help | less | grep "aws s3 cp"``` to list out command examples
+  
+
+  
+  
+
+  
+
+  
+
+  
 
 
 
